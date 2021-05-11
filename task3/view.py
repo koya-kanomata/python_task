@@ -1,5 +1,4 @@
 import eel
-import desktop
 import search
 
 #app_name="html"
