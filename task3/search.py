@@ -1,6 +1,7 @@
 import csv
 import eel
 
+#鬼滅キャラ検索関数。view.pyから呼び出す。(引数1:キャラクター、引数2:結果出力用CSVファイル名)
 def kimetsu_search(word,csv_name):
 
     answer = word
@@ -11,11 +12,12 @@ def kimetsu_search(word,csv_name):
     s = [line for line in reader]
     source=s[0]
  
+ # 結果はindex.html記載のview_log_js関数を使いテキストエリアに出力
     for i in range(0,len(source)):
         if(answer==source[i]):
             print('存在します')
             eel.view_log_js(answer+"はいます")
-            break;
+            break
         elif(i==len(source)-1):
             print('存在しません')
             source.append(answer)

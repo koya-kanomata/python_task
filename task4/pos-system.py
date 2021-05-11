@@ -3,9 +3,8 @@ import datetime
 
 master_list={}
 order_list={}
-#sum=0
-#sum_fee=0
-### 商品マスタクラス
+
+# 商品マスタクラス
 class Item(object):
     def __init__(self,item_code,item_name,price):
         self.item_code=item_code
@@ -24,20 +23,19 @@ class Item(object):
 ### オーダークラス
 class Order(object):
     
-    
-    #global sum_fee
-    #global sum
-    #sum=0
-    #sum_fee=0
+    # init関数
     def __init__(self,item_master):
         self.item_master=item_master
-
+    
+    #オーダ商品追加関数
     def add_item_order(self,item_code):
+
+        #商品コード入力欄に確定と入力すれば支払へ
         if(item_code=="確定"):
-#            global sum_fee
-#            self.sum_fee=0
             self.pay()
             exit()
+        # order_listに入力されたコードに該当する商品を格納。格納した配列の要素が2なら個数として1を要素として追加。
+        # 配列の要素に3つ目(個数)あれば+1する
         else:    
             order_list[item_code] = master_list[item_code]
             if len(order_list[item_code]) == 2:
@@ -47,7 +45,7 @@ class Order(object):
              
             print("{}を買い物かごに追加しました。".format(order_list[item_code][0]))
 
-    
+    # オーダリストの中身を表示する関数
     def view_item_list(self):
         global sum_fee
         global sum
@@ -62,7 +60,8 @@ class Order(object):
             print("個数{}".format(order_list[code][2]))
             print("\n")
         print("----------------------------------")
-        print(order_list)
+
+        # オーダ商品の合計数、合計金額を表示
         for order in order_list:
             
             self.sum = self.sum + order_list[order][2]
@@ -71,15 +70,7 @@ class Order(object):
         print("商品数:",self.sum,"点")
         print("合計支払金額:",self.sum_fee,"円")
 
-        
-
-
-    #def view_item_list(self):
-     #   for code in order_list:
-      #      print("商品コード:{}".format(code))
-       #     print("[商品名]{}".format(order_list[code][0]))
-        #    print("[価格]{}".format(order_list[code][1]))
-
+     #支払関数
     def pay(self):
         
         self.pay_fee = int(input("支払金額を入力してください:"))
@@ -87,6 +78,8 @@ class Order(object):
         print("{}円のお返しです。".format(self.charge))
         print("ご利用ありがとうございました。")
         
+
+        # レシートの作成
         self.receipt_num = "お買い上げ数:{}点".format(self.sum)
         self.receipt_sum_fee = "合計金額:{}円".format(self.sum_fee)
         self.receipt_pay_fee = "お預かり金額:{}円".format(self.pay_fee)    
@@ -108,28 +101,21 @@ class Order(object):
         print("お返し:",self.charge)
         return        
     
-
+#マスタ登録関数。同フォルダのmaster.csvファイルから読み込み
 def add_item_master_by_csv():
     global item_master
     item_master=[]
-    #try:
+ 
     item_master_df=pd.read_csv('./master.csv',dtype={"item_code":object}) 
     for item_code,item_name,price in zip(list(item_master_df["item_code"]),list(item_master_df["item_name"]),list(item_master_df["price"])):
         item_master.append(Item(item_code,item_name,price))
-        #print("{},{}({})".format(item_code,item_name,item_code))
-        #return item_master
-    #except:
-    #    print("マスタ登録が失敗しました")
-    #    print("------- マスタ登録完了 ---------")
-
-
+   
 
 
 ### メイン処理
 def main():
     # マスタ登録
     add_item_master_by_csv()
-    #print("マスタ登録完了")
     # オーダー登録
     order=Order(item_master)
     while True:

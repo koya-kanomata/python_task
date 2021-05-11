@@ -20,12 +20,13 @@
         </div>
         <script type="text/javascript" src="./eel.js"></script>
         <script>
+            //検索ボタン押下をトリガーにview.py記載の関数を呼び出し。
             search.addEventListener('click', () => {
                 //alert(serch_word.value)
-                eel.kimetsu_search(search_word.value,csv_name.value)
+                eel.kimetsu_search(search_word.value,csv_name.value) //検索ワード、CSVファイルを引数
             })
-
-             eel.expose(view_log_js)
+            // テキストエリアに結果を出力する関数を定義。search.pyで呼び出す。
+            eel.expose(view_log_js)
             function view_log_js(text){
                 result.value += text + "\n"
             }
