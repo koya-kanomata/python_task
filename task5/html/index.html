@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="./style.css">
+        <title>posシステム</title>
+    </head>
+
+    <body>
+        <h2>---------POSシステム---------</h2>
+        <div class="">    
+            商品コード:<input id="item_code" type="text"></input><br/>
+            個数:<input id="item_num" type="text"></input><br/>
+
+            <button id="buy">購入</button><br/>
+        </div>
+    
+        <div>
+            <textarea id="result" class="log-view-area"></textarea>
+        </div>
+        
+        <div>    
+            支払金額:<input id="payment" type="text"></input><br/>
+            <button id="pay">支払</button><br/>
+            <textarea id="receipt" class="receipt-view-area"></textarea>
+        </div>
+    
+        <script type="text/javascript" src="./eel.js"></script>
+        <script>
+            eel.master_item()
+            buy.addEventListener('click', () => {
+                //alert(serch_word.value)
+                eel.order_item(item_code.value,item_num.value)
+            })
+
+            pay.addEventListener('click', () => {
+                eel.payment(payment.value,result.value)
+            })
+
+            eel.expose(view_clear_js)
+            function view_clear_js(text){
+                result.value = ""
+            }
+            
+            eel.expose(view_log_js)
+            function view_log_js(text){
+                result.value += text + "\n"
+            }
+            
+            
+            eel.expose(receipt_view_js)
+            function receipt_view_js(text){
+                receipt.value = text
+            }
+            
+            
+            
+
+        </script>
+    </body>
+</html>
